@@ -37,10 +37,10 @@
           9.424816392753128
         ],
         [
-          0.0,
-          0.0,
-          0.0,
-          1.0
+          0,
+          0,
+          0,
+          1
         ]
       ]
     },
@@ -68,10 +68,10 @@
           6.026126059639424
         ],
         [
-          0.0,
-          0.0,
-          0.0,
-          1.0
+          0,
+          0,
+          0,
+          1
         ]
       ]
     },
@@ -99,10 +99,10 @@
           37.11904422107541
         ],
         [
-          0.0,
-          0.0,
-          0.0,
-          1.0
+          0,
+          0,
+          0,
+          1
         ]
       ]
     },
@@ -130,10 +130,10 @@
           6.026126059639424
         ],
         [
-          0.0,
-          0.0,
-          0.0,
-          1.0
+          0,
+          0,
+          0,
+          1
         ]
       ]
     },
@@ -161,10 +161,10 @@
           40.73242720365736
         ],
         [
-          0.0,
-          0.0,
-          0.0,
-          1.0
+          0,
+          0,
+          0,
+          1
         ]
       ]
     }
@@ -191,5 +191,24 @@
     }
   },
   "schema_version": 1,
-  "transform_convention": "4x4 column-vector transform; translation in Fusion internal cm; nested occurrence transforms composed from root to leaf"
+  "transform_convention": "4x4 column-vector transform; translation in Fusion internal cm; nested occurrence transforms composed from root to leaf",
+  "base_axes_rotation_root": [
+    [
+      0.9998519153357059,
+      0.00027439434343015217,
+      0.01720674598135964
+    ],
+    [
+      -0.00022440184076873084,
+      0.999995748718614,
+      -0.0029072647820453054
+    ],
+    [
+      -0.017207470567651727,
+      0.002902973035244158,
+      0.9998477262584632
+    ]
+  ],
+  "base_axes_reference": "/Left Side:1",
+  "manifest_note": "MCP inspection found /Left Side:1, /Right Side:1, /Face:1 and the head share the neutral CAD orientation. This stored chassis axes rotation is from that inspected neutral pose; run fusion_export.py to refresh live transforms."
 }

@@ -69,9 +69,13 @@ def locate(manifest, path):
 def datum_transform(manifest, name):
     try:
         xyz_cm = manifest["ros_datums"][name]["origin_root_cm"]
+        rotation = manifest["base_axes_rotation_root"]
     except KeyError as exc:
-        raise ValueError("CAD datum absent from manifest: " + name) from exc
-    transform = rpy_matrix([0.0, 0.0, 0.0])
+        raise ValueError("CAD datum or chassis axes absent from manifest: " + name) from exc
+    if len(rotation) != 3 or any(len(row) != 3 for row in rotation):
+        raise ValueError("base_axes_rotation_root must be a 3x3 matrix")
+    transform = [list(row) + [0.0] for row in rotation]
+    transform.append([0.0, 0.0, 0.0, 1.0])
     for i in range(3):
         transform[i][3] = float(xyz_cm[i]) * 0.01
     return transform
@@ -85,6 +89,11 @@ def frame_transform(manifest, mapping, occurrence_key, parent_transform):
     local = rpy_matrix(axes)
     for i in range(3):
         local[i][3] = offset[i]
+    # Appending the rotations after the local origin translation preserves the
+    # extracted sensor measurement-origin position.
+    cad_mount = rpy_matrix(ref.get("cad_mounting_correction_rpy_rad") or [0.0, 0.0, 0.0])
+    measurement = rpy_matrix(ref.get("measurement_frame_correction_rpy_rad") or [0.0, 0.0, 0.0])
+    local = multiply(local, multiply(cad_mount, measurement))
     return multiply(inverse_rigid(parent_transform), multiply(transform, local))
 
 
@@ -116,7 +125,7 @@ def main():
 
     invalid = []
     if not mapping["fusion"]["root_to_ros"].get("validated", False):
-        invalid.append("CAD root axes/origin → base_link are provisional")
+        invalid.append("CAD chassis axes/origin → base_link are provisional")
     for key in ("camera_model", "lidar_model"):
         if not mapping["occurrences"][key].get("origin_validated", False):
             invalid.append(key + " occurrence origin is a provisional sensor origin")
