@@ -9,10 +9,11 @@ import json
 import os
 
 
-OUTPUT_PATH = r"C:\Users\leahc\Documents\Codex\2026-11-25\sparx-fusion-360-to-ros-2\sparx_description\cad_export\cad_geometry.json"
+OUTPUT_PATH = r"C:\Users\leahc\Documents\Sparx\code\sparx_description\cad_export\cad_geometry.json"
 EXPECTED_DESIGN = "Complete Assembly"
 TARGET_PATHS = {
     "base_reference": "/Body Frame:1",
+    "chassis_axes_reference": "/Left Side:1",
     "head": "/Face:1/Head:1",
     "camera_assembly": "/Face:1/Head:1/Electronics:1/Gemini 355 asm:1",
     "camera_model": "/Face:1/Head:1/Electronics:1/Gemini 355 asm:1/Gemini 335:1",
@@ -101,6 +102,8 @@ def run(_context: str):
             key: found[path] for key, path in TARGET_PATHS.items()
         },
         "ros_datums": root_datums,
+        "base_axes_rotation_root": [row[:3] for row in found[TARGET_PATHS["chassis_axes_reference"]]["root_transform_cm"][:3]],
+        "base_axes_reference": TARGET_PATHS["chassis_axes_reference"],
         "camera_mount_datum": camera_mount_datum,
         "transform_convention": (
             "4x4 column-vector transform; translation in Fusion internal cm; "

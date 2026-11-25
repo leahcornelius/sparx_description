@@ -8,16 +8,19 @@ fusion:
   internal_length_unit: cm
   output_manifest: sparx_description/cad_export/cad_geometry.json
   root_to_ros:
-    # The named datum origin comes from Fusion. Its axes currently use the
-    # Fusion root axes, assumed to be ROS X-forward, Y-left, Z-up.
+    # Translation comes from the named datum; axes follow the chassis occurrence.
     datum_name: base_link
-    axes_convention: Fusion root X/Y/Z = ROS forward/left/up
+    axes_reference_occurrence: chassis_axes_reference
+    axes_convention: chassis occurrence X/Y/Z = ROS forward/left/up
     validated: false
 
 occurrences:
   base_reference:
     path: "/Body Frame:1"
     purpose: candidate chassis datum; origin/orientation require physical verification
+  chassis_axes_reference:
+    path: "/Left Side:1"
+    purpose: chassis orientation; MCP found the neutral orientation shared by head and side assemblies
   head:
     path: "/Face:1/Head:1"
     purpose: head assembly reference; its occurrence origin is not a confirmed yaw axis
@@ -29,10 +32,12 @@ occurrences:
     purpose: model reference only; Fusion hierarchy calls this Gemini 335
     frame_name: camera_link
     mount_datum_name: camera_mount_datum
-    # Fusion occurrence origin is near the housing centre, not at the mount
-    # hole or optical centre. Zero offset is a review-only placement proxy.
-    measurement_origin_offset_m: [0.0, 0.0, 0.0]
+    # CAD occurrence axes are not the camera_link origin. These local offsets
+    # retain the physically validated scan/cloud overlay in ROS body axes.
+    measurement_origin_offset_m: [0.0027487588280489523, -0.02540666857748549, -0.00007730636726677745]
     measurement_axes_rpy_rad: [0.0, -1.5707963267948966, -1.5707963267948966]
+    # Cancels the inspected occurrence attitude residual relative to head_link.
+    cad_mounting_correction_rpy_rad: [0.0031784810018046813, 0.014305403715940747, -0.017428095023181760]
     origin_validated: false
   lidar_model:
     path: "/Face:1/Head:1/Electronics:1/Lidar ASm:1/RPLIDAR C1:1"
@@ -41,9 +46,13 @@ occurrences:
     # The imported C1 body is centred on X/Z and spans Y=0..41.3 mm, matching
     # Slamtec's 55.6 x 55.6 x 41.3 mm envelope. The component origin appears to
     # be the bottom centre; manufacturer scan height is 29.8 mm from that plane.
-    # Child axes are REP-103 x-ahead, y-left, z-up; verify scan azimuth/zero.
+    # The C1 rigid placement carries the measured pitch residual relative to camera/head.
+    # This CAD correction levels its mechanical frame independently of scan-frame yaw.
     measurement_origin_offset_m: [0.0, 0.0298, 0.0]
     measurement_axes_rpy_rad: [0.0, -1.5707963267948966, -1.5707963267948966]
+    cad_mounting_correction_rpy_rad: [0.0031746726295201243, 0.031758695163577932, -0.017423393588977997]
+    # Physical validation confirmed a local 180-degree yaw for the scan measurement frame.
+    measurement_frame_correction_rpy_rad: [0.0, 0.0, 3.141592653589793]
     origin_validated: false
 
 frames:
