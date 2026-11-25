@@ -64,6 +64,21 @@ ros2 launch sparx_description description.launch.py
 
 For repeat use, regenerate the Fusion manifest by running `cad_export/fusion_export.py` inside Fusion first, then run the ROS generator again. It reads the named points and full nested occurrence transforms; it does not edit mechanical geometry. Review the JSON and mapping diff after changing CAD hierarchy. Mesh export is not enabled yet.
 
+## Git checkout
+
+This folder is a Git repository on branch `main` with an initial commit. It currently has no remote configured. To clone it from a Pi, first create an empty private or public repository on your chosen Git host, then add it here and push:
+
+```bash
+git remote add origin <repository-url>
+git push -u origin main
+```
+
+Then on the Pi:
+
+```bash
+git clone <repository-url>
+```
+
 ## TF ownership and validation
 
 The description publishes `base_footprint -> base_link`, `base_link -> head_link`, `head_link -> laser_frame`, and `head_link -> camera_link`. SLAM/localisation owns `map -> odom`; odometry owns `odom -> base_footprint`. The Orbbec driver owns its camera/depth/color/optical descendants. Confirm no other node publishes a robot-mounted parent for `camera_link` before launching, to avoid duplicate TF publishers.
