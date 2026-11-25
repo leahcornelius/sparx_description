@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.8)
+project(sparx_description)
+find_package(ament_cmake REQUIRED)
+install(DIRECTORY urdf meshes config launch DESTINATION share/${PROJECT_NAME})
+install(PROGRAMS scripts/generate_description.py DESTINATION lib/${PROJECT_NAME})
+install(FILES cad_export/fusion_export.py DESTINATION share/${PROJECT_NAME}/cad_export)
+ament_package()

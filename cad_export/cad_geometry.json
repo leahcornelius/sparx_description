@@ -1,0 +1,195 @@
+{
+  "camera_mount_datum": {
+    "feature_name": "Mounting point datum point",
+    "origin_root_cm": [
+      7.3538106844930144,
+      2.7182264504251856,
+      41.71707621890244
+    ],
+    "parent_occurrence": "/Face:1/Head:1/Electronics:1/Gemini 355 asm:1"
+  },
+  "design_root": "Complete Assembly",
+  "fusion_internal_length_unit": "cm",
+  "length_unit": "mm",
+  "occurrence_count": 639,
+  "occurrences": {
+    "base_reference": {
+      "component_name": "Body Frame",
+      "occurrence_name": "Body Frame:1",
+      "path": "/Body Frame:1",
+      "root_transform_cm": [
+        [
+          0.00027439434342031705,
+          0.4537715515891854,
+          0.8911180077161979,
+          3.256778270471791
+        ],
+        [
+          0.9999957487186145,
+          -0.002711403569392209,
+          0.0010727699580715196,
+          2.8130946374125383
+        ],
+        [
+          0.002902973035244717,
+          0.8911139249607898,
+          -0.4537703664724376,
+          9.424816392753128
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "camera_assembly": {
+      "component_name": "Gemini 355 asm",
+      "occurrence_name": "Gemini 355 asm:1",
+      "path": "/Face:1/Head:1/Electronics:1/Gemini 355 asm:1",
+      "root_transform_cm": [
+        [
+          0.9998519153357059,
+          0.00027439434343015217,
+          0.01720674598135964,
+          -1.7807392172946828
+        ],
+        [
+          -0.00022440184076873084,
+          0.999995748718614,
+          -0.0029072647820453054,
+          0.03415627919936183
+        ],
+        [
+          -0.017207470567651727,
+          0.002902973035244158,
+          0.9998477262584632,
+          6.026126059639424
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "camera_model": {
+      "component_name": "Gemini 335",
+      "occurrence_name": "Gemini 335:1",
+      "path": "/Face:1/Head:1/Electronics:1/Gemini 355 asm:1/Gemini 335:1",
+      "root_transform_cm": [
+        [
+          -0.017207470567651775,
+          0.002902973035244496,
+          0.9998477262584667,
+          15.419569989987217
+        ],
+        [
+          0.9998519153357088,
+          0.0002743943434299351,
+          0.017206745981360187,
+          1.009435877930996
+        ],
+        [
+          -0.00022440184076854555,
+          0.9999957487186144,
+          -0.002907264782045595,
+          37.11904422107541
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "head": {
+      "component_name": "Head",
+      "occurrence_name": "Head:1",
+      "path": "/Face:1/Head:1",
+      "root_transform_cm": [
+        [
+          0.9998519153357059,
+          0.00027439434343015217,
+          0.01720674598135964,
+          -1.7807392172946828
+        ],
+        [
+          -0.00022440184076873084,
+          0.999995748718614,
+          -0.0029072647820453054,
+          0.03415627919936183
+        ],
+        [
+          -0.017207470567651727,
+          0.002902973035244158,
+          0.9998477262584632,
+          6.026126059639424
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "lidar_model": {
+      "component_name": "RPLIDAR C1",
+      "occurrence_name": "RPLIDAR C1:1",
+      "path": "/Face:1/Head:1/Electronics:1/Lidar ASm:1/RPLIDAR C1:1",
+      "root_transform_cm": [
+        [
+          -0.01720093343440492,
+          -0.014549801343805506,
+          0.9997461833734793,
+          12.489974440445895
+        ],
+        [
+          0.9998519153357059,
+          0.0002743943434299786,
+          0.01720674598135721,
+          1.0080261611944432
+        ],
+        [
+          -0.0005246794333855829,
+          0.9998941083877835,
+          0.014542926902521786,
+          40.73242720365736
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  },
+  "origin_note": "Transforms locate CAD occurrence origins. They do not establish sensor measurement origins unless the mapping supplies a verified offset.",
+  "ros_datums": {
+    "base_footprint": {
+      "axes_in_root": "Fusion root X/Y/Z; configured as ROS forward/left/up",
+      "feature_name": "ROS_base_footprint_origin",
+      "origin_root_cm": [
+        2.4250000000000003,
+        2.8100000000000005,
+        -14.600000000000001
+      ]
+    },
+    "base_link": {
+      "axes_in_root": "Fusion root X/Y/Z; configured as ROS forward/left/up",
+      "feature_name": "ROS_base_link_origin",
+      "origin_root_cm": [
+        2.4250000000000003,
+        2.8100000000000005,
+        4.625
+      ]
+    }
+  },
+  "schema_version": 1,
+  "transform_convention": "4x4 column-vector transform; translation in Fusion internal cm; nested occurrence transforms composed from root to leaf"
+}

@@ -1,0 +1,92 @@
+schema_version: 1
+description: >-
+  Explicit, reviewable links between the Fusion master assembly and ROS frames.
+  Component occurrence origins are not assumed to be sensor measurement origins.
+
+fusion:
+  expected_design_name: Complete Assembly
+  internal_length_unit: cm
+  output_manifest: sparx_description/cad_export/cad_geometry.json
+  root_to_ros:
+    # The named datum origin comes from Fusion. Its axes currently use the
+    # Fusion root axes, assumed to be ROS X-forward, Y-left, Z-up.
+    datum_name: base_link
+    axes_convention: Fusion root X/Y/Z = ROS forward/left/up
+    validated: false
+
+occurrences:
+  base_reference:
+    path: "/Body Frame:1"
+    purpose: candidate chassis datum; origin/orientation require physical verification
+  head:
+    path: "/Face:1/Head:1"
+    purpose: head assembly reference; its occurrence origin is not a confirmed yaw axis
+  camera_assembly:
+    path: "/Face:1/Head:1/Electronics:1/Gemini 355 asm:1"
+    purpose: parent component containing the user-defined Gemini mounting datum
+  camera_model:
+    path: "/Face:1/Head:1/Electronics:1/Gemini 355 asm:1/Gemini 335:1"
+    purpose: model reference only; Fusion hierarchy calls this Gemini 335
+    frame_name: camera_link
+    mount_datum_name: camera_mount_datum
+    # Fusion occurrence origin is near the housing centre, not at the mount
+    # hole or optical centre. Zero offset is a review-only placement proxy.
+    measurement_origin_offset_m: [0.0, 0.0, 0.0]
+    measurement_axes_rpy_rad: [0.0, -1.5707963267948966, -1.5707963267948966]
+    origin_validated: false
+  lidar_model:
+    path: "/Face:1/Head:1/Electronics:1/Lidar ASm:1/RPLIDAR C1:1"
+    purpose: model reference only; derive scan origin from C1 rotating centre datum
+    frame_name: laser_frame
+    # The imported C1 body is centred on X/Z and spans Y=0..41.3 mm, matching
+    # Slamtec's 55.6 x 55.6 x 41.3 mm envelope. The component origin appears to
+    # be the bottom centre; manufacturer scan height is 29.8 mm from that plane.
+    # Child axes are REP-103 x-ahead, y-left, z-up; verify scan azimuth/zero.
+    measurement_origin_offset_m: [0.0, 0.0298, 0.0]
+    measurement_axes_rpy_rad: [0.0, -1.5707963267948966, -1.5707963267948966]
+    origin_validated: false
+
+frames:
+  base_footprint:
+    parent: base_footprint
+    child: base_link
+    datum_name: base_footprint
+    source: cad_datum_projection
+    validated: false
+  head_link:
+    parent: base_link
+    child: head_link
+    source_occurrence: head
+    source: cad
+  laser_frame:
+    parent: head_link
+    child: laser_frame
+    source_occurrence: lidar_model
+    source: cad_plus_measurement_origin
+  camera_link:
+    parent: head_link
+    child: camera_link
+    source_occurrence: camera_model
+    source: cad_occurrence_origin_proxy
+    publish_only_if_driver_does_not_already_publish_parent_edge: true
+  mic_link:
+    parent: head_link
+    child: mic_link
+    source: manual_pending_microphone_datum
+    enabled: false
+
+driver_frames:
+  # Confirmed in the user's view_frames PDF. Only the root camera_link is mounted
+  # by this description; the driver owns every listed descendant.
+  orbbec_root: camera_link
+  orbbec_driver_owned:
+    - camera_depth_frame
+    - camera_color_frame
+    - camera_depth_optical_frame
+    - camera_color_optical_frame
+
+topic_frames:
+  /scan: laser_frame
+  /camera/depth/image_raw: camera_depth_optical_frame
+  /camera/depth/camera_info: camera_depth_optical_frame
+  /sparx/depth/points: camera_depth_optical_frame

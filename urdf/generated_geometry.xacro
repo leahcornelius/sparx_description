@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!-- Candidate generated transforms from the 2026-11-25 Fusion manifest.
+     These use occurrence origins; do not treat sensor origins/axes as calibrated. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sparx_generated">
+  <!-- Fusion-derived track-ground candidate to centre of the base plate. -->
+  <joint name="base_footprint_to_base_link" type="fixed">
+    <parent link="base_footprint"/><child link="base_link"/>
+    <origin xyz="0 0 0.19225" rpy="0 0 0"/>
+  </joint>
+  <!-- ROS_base_link_origin construction point relative to the Fusion root. -->
+  <joint name="base_link_to_head_link" type="fixed">
+    <parent link="base_link"/><child link="head_link"/>
+    <origin xyz="-0.0420573922 -0.0277584372 0.0140112606" rpy="0.00290340699 0.0172083199 -0.000224435072"/>
+  </joint>
+  <!-- C1 scan-centre height from Slamtec drawing applied to the inferred bottom-centre CAD origin. -->
+  <joint name="head_link_to_laser_frame" type="fixed">
+    <parent link="head_link"/><child link="laser_frame"/>
+    <origin xyz="0.135765492 0.0108798874 0.379222198" rpy="-0.00372928794 -0.0316983745 0.0175329208"/>
+  </joint>
+  <!-- Camera housing-origin proxy; the CAD occurrence origin is not camera_link's measurement datum. -->
+  <joint name="head_link_to_camera_link" type="fixed">
+    <parent link="head_link"/><child link="camera_link"/>
+    <origin xyz="0.166863383 0.0133687986 0.288398632" rpy="-0.00342764111 -0.0142477612 0.0174752487"/>
+  </joint>
+</robot>
